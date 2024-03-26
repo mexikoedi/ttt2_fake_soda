@@ -1,0 +1,14 @@
+{
+    "title": "[TTT2] Fake Soda [WEAPON]",
+    "type": "weapon",
+    "tags": [
+        "realism",
+        "fun"
+    ],
+    "description": "Place a random fake soda on the ground which has a negative effect.",
+    "ignore": [
+        "*.psd",
+        "*.vcproj",
+        "*.svn"
+    ]
+}
