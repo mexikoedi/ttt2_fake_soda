@@ -1,9 +1,9 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: ''
-labels: ''
-assignees: ''
+title: xxx [FEATURE]
+labels: enhancement
+assignees: mexikoedi
 
 ---
 
@@ -17,4 +17,6 @@ A clear and concise description of what you want to happen.
 A clear and concise description of any alternative solutions or features you've considered.
 
 **Additional context**
-Add any other context or screenshots about the feature request here.
+Add any other context or screenshots/short videos about the feature request here.
+
+**Make sure to read the README file and the information from the given link there first!**
