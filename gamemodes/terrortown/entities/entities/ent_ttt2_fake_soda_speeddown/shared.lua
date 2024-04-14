@@ -58,7 +58,7 @@ if SERVER then
 	local soundDeny = Sound("HL2Player.UseDeny")
 	function ENT:UseOverride(activator)
 		if not IsValid(activator) or not activator:IsActive() or not self.pickupWeaponClass then return end
-		if not self:PlayerCanPickupWeapon(activator) then return end
+		if activator ~= self:GetOriginator() then return end
 		local wep = activator:GetWeapon(self.pickupWeaponClass)
 		if IsValid(wep) then
 			if wep:Clip1() >= wep.Primary.ClipSize then
