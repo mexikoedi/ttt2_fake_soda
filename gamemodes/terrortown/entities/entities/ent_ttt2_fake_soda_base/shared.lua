@@ -1,7 +1,6 @@
 if SERVER then AddCSLuaFile() end
 ENT.Base = "ttt_base_placeable"
 ENT.Spawnable = false
-ENT.CanUseKey = true
 ENT.isDestructible = GetConVar("ttt2_fake_soda_destruction"):GetBool()
 ENT.pickupWeaponClass = "weapon_ttt2_fake_soda"
 function ENT:Initialize()
@@ -47,7 +46,7 @@ if SERVER then
     -- handle pickup of sodas for owner and his team
     local soundWeaponPickup = Sound("items/ammo_pickup.wav")
     local soundDeny = Sound("HL2Player.UseDeny")
-    function ENT:UseOverride(activator)
+    function ENT:Use(activator)
         if not IsValid(activator) or not activator:IsActive() or not self.pickupWeaponClass then return end
         if activator ~= self:GetOriginator() then return end
         local wep = activator:GetWeapon(self.pickupWeaponClass)

@@ -20,6 +20,8 @@ L["jumpdown_real_name"] = "JumpDown!™"
 L["armordown_real_name"] = "ArmorDown!™"
 L["healdown_real_name"] = "HealDown!™"
 L["creditdown_real_name"] = "CreditDown!™"
+-- Subtitles for marker vision
+L["ttt2_fake_soda_subtitle"] = "Du und dein Team können diese Falsche Soda aufsammeln!"
 -- Real messages after drinking
 L["ttt2_drank_ent_ttt2_fake_soda_speeddown"] = "Du hast die SpeedDown!™ Dose gefunden! Laufe langsamer!"
 L["ttt2_drank_ent_ttt2_fake_soda_ragedown"] = "Du hast die RageDown!™ Dose gefunden! Mache weniger Schaden!"

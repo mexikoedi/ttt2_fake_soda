@@ -1,4 +1,4 @@
-include("entities/ent_ttt2_fake_soda_base.lua")
+include("entities/ent_ttt2_fake_soda_base/shared.lua")
 if SERVER then AddCSLuaFile() end
 if CLIENT then ENT.PrintName = "shootdown" end
 DEFINE_BASECLASS("ent_ttt2_fake_soda_base")

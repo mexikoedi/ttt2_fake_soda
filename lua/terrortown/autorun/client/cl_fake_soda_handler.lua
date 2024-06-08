@@ -50,6 +50,7 @@ hook.Add("TTT2RenderMarkerVisionInfo", "ttt2_fake_soda_marker_vision_hook", func
 	mvData:EnableText()
 	mvData:AddIcon(materialFakeSoda)
 	mvData:SetTitle(TryT(ent.PrintName .. "_real_name"))
+	mvData:SetSubtitle(TryT("ttt2_fake_soda_subtitle"))
 	mvData:AddDescriptionLine(ParT("marker_vision_owner", {
 		owner = nick
 	}))
