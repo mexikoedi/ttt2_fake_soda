@@ -27,6 +27,7 @@ if SERVER then
 	local function ApplyWeaponSpeed(wep)
 		if wep.Kind == WEAPON_HEAVY or wep.Kind == WEAPON_PISTOL then
 			local delay = 0
+			if not wep.Primary.Delay then wep.Primary.Delay = 0.15 end
 			if not wep.OriginalDelay then wep.OriginalDelay = wep.Primary.Delay end
 			if wep.Owner.HasDrunkSoda and wep.Owner:HasDrunkSoda("soda_shootup") then
 				delay = math.Round(wep.OriginalDelay / GetConVar("ttt_soda_shootup"):GetFloat() / GetConVar("ttt2_fake_soda_shootdown"):GetFloat(), 3)
