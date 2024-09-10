@@ -64,10 +64,13 @@ SWEP.UseHands = true
 SWEP.ViewModel = "models/weapons/cstrike/c_eq_fraggrenade.mdl"
 SWEP.WorldModel = "models/props_junk/popcan01a.mdl"
 SWEP.OwnerSodas = nil
+SWEP.Reloaded = false
+SWEP.LastReload = 0
 -- help texts, custom viewmodel/worldmodel and initialize clip
 function SWEP:Initialize()
     if CLIENT then
-        self:AddTTT2HUDHelp("ttt2_fake_soda_help1", "ttt2_fake_soda_help2")
+        self:AddTTT2HUDHelp("ttt2_fake_soda_help1.0", "ttt2_fake_soda_help2")
+        self:AddHUDHelpLine("ttt2_fake_soda_reload", Key("+reload", "undefined_key"))
         self:AddCustomViewModel("vmodel", {
             type = "Model",
             model = "models/props_junk/popcan01a.mdl",
@@ -107,25 +110,43 @@ end
 
 -- create copy of fake soda table so that everyone uses his own table at playerspawn
 hook.Add("PlayerSpawn", "InitializeOwnerSodas", function(ply) ply.OwnerSodas = table.Copy(FAKESODA.sodas) end)
--- refill table if empty, create/throw random fake sodas and remove them from table
-local function createFakeSoda(owner)
+-- refill table if empty, create/throw/place random fake sodas and remove them from table
+local function createFakeSoda(owner, placing)
     local wep = owner:GetActiveWeapon()
     if IsValid(wep) and table.IsEmpty(owner.OwnerSodas) then owner.OwnerSodas = table.Copy(FAKESODA.sodas) end
     local fake_soda_type = table.remove(owner.OwnerSodas, math.random(#owner.OwnerSodas))
     local fake_soda = ents.Create(fake_soda_type)
-    if fake_soda:ThrowEntity(owner, Angle(90, 0, 0)) then return true end
+    -- check if surface is valid for placement
+    if placing then
+        local pos = owner:GetShootPos()
+        local aimVector = owner:GetAimVector()
+        local tr = util.TraceLine({
+            start = pos,
+            endpos = pos + aimVector * 100,
+            mask = MASK_NPCWORLDSTATIC,
+            filter = {owner, fake_soda}
+        })
+
+        -- check if surface is mostly horizontal
+        if not tr.Hit or tr.HitNormal.z < 0.5 then return false end
+    end
+
+    if not placing and fake_soda:ThrowEntity(owner, Angle(90, 0, 0)) then
+        return true
+    elseif placing and fake_soda:StickEntity(owner, Angle(90, 0, 0)) then
+        local newPos = fake_soda:GetPos() + Vector(0, 0, 3)
+        fake_soda:SetPos(newPos)
+        return true
+    end
     return false
 end
 
--- trigger placement of fake sodas and play sound
+-- trigger placement of fake sodas and only play sound if the sodas are being dropped
 function SWEP:PrimaryAttack()
     if SERVER and self:CanPrimaryAttack() then
-        if GetConVar("ttt2_fake_soda_secondary_sound"):GetBool() then
-            local owner = self:GetOwner()
-            owner:EmitSound("fake_soda_drop.wav")
-        end
-
-        if createFakeSoda(self:GetOwner()) then self:TakePrimaryAmmo(1) end
+        local owner = self:GetOwner()
+        if GetConVar("ttt2_fake_soda_secondary_sound"):GetBool() and not self.Reloaded then owner:EmitSound("fake_soda_drop.wav") end
+        if createFakeSoda(owner, self.Reloaded) then self:TakePrimaryAmmo(1) end
     end
 
     self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
@@ -139,6 +160,22 @@ function SWEP:SecondaryAttack()
     end
 
     self:SetNextSecondaryFire(CurTime() + self.Secondary.Delay)
+end
+
+function SWEP:Reload()
+    if self.LastReload + 0.5 < CurTime() then
+        self.LastReload = CurTime()
+        self.Reloaded = not self.Reloaded
+        if CLIENT then
+            if self.Reloaded then
+                self:AddTTT2HUDHelp("ttt2_fake_soda_help1.1", "ttt2_fake_soda_help2")
+                self:AddHUDHelpLine("ttt2_fake_soda_reload", Key("+reload", "undefined_key"))
+            else
+                self:AddTTT2HUDHelp("ttt2_fake_soda_help1.0", "ttt2_fake_soda_help2")
+                self:AddHUDHelpLine("ttt2_fake_soda_reload", Key("+reload", "undefined_key"))
+            end
+        end
+    end
 end
 
 function SWEP:Holster()

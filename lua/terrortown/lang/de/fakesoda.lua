@@ -2,8 +2,10 @@ local L = LANG.GetLanguageTableReference("de")
 -- Fake soda name, description and help texts
 L["ttt2_fake_soda_name"] = "Falsche Soda"
 L["ttt2_fake_soda_desc"] = "Linksklick, um eine zufällige falsche Soda fallen zu lassen und Rechtsklick, um einen erfrischenden Ton abzuspielen.\nDeine Feinde werden geschwächt, wenn sie eine Soda trinken."
-L["ttt2_fake_soda_help1"] = "Soda fallen lassen"
+L["ttt2_fake_soda_help1.0"] = "Soda fallen lassen"
+L["ttt2_fake_soda_help1.1"] = "Soda fest platzieren"
 L["ttt2_fake_soda_help2"] = "Erfrischenden Ton abspielen"
+L["ttt2_fake_soda_reload"] = "Platzierungsmodus ändern"
 -- Fake names 
 L["speeddown"] = "SpeedUp!™"
 L["ragedown"] = "RageUp!™"
