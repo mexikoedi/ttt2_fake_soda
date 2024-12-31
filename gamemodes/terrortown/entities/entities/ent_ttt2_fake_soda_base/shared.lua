@@ -78,7 +78,7 @@ if SERVER then
         self:Remove()
     end
 
-    function ENT:WasDestroyed(pos, dmgInfo)
+    function ENT:WasDestroyed()
         local originator = self:GetOriginator()
         LANG.Msg(originator, "weapon_ttt2_fake_soda_destroyed", nil, MSG_MSTACK_WARN)
     end
