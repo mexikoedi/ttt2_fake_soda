@@ -112,10 +112,12 @@ end
 hook.Add("PlayerSpawn", "InitializeOwnerSodas", function(ply) ply.OwnerSodas = table.Copy(FAKESODA.sodas) end)
 -- refill table if empty, create/throw/place random fake sodas and remove them from table
 local function createFakeSoda(owner, placing)
+    owner:LagCompensation(true)
     local wep = owner:GetActiveWeapon()
     if IsValid(wep) and table.IsEmpty(owner.OwnerSodas) then owner.OwnerSodas = table.Copy(FAKESODA.sodas) end
     local fake_soda_type = table.remove(owner.OwnerSodas, math.random(#owner.OwnerSodas))
     local fake_soda = ents.Create(fake_soda_type)
+    local success = false
     -- check if surface is valid for placement
     if placing then
         local pos = owner:GetShootPos()
@@ -128,23 +130,29 @@ local function createFakeSoda(owner, placing)
         })
 
         -- check if surface is mostly horizontal
-        if not tr.Hit or tr.HitNormal.z < 0.5 then return false end
+        if not tr.Hit or tr.HitNormal.z < 0.5 then
+            owner:LagCompensation(false)
+            return success
+        end
     end
 
     if not placing and fake_soda:ThrowEntity(owner, Angle(90, 0, 0)) then
-        return true
+        success = true
     elseif placing and fake_soda:StickEntity(owner, Angle(90, 0, 0)) then
         local newPos = fake_soda:GetPos() + Vector(0, 0, 3)
         fake_soda:SetPos(newPos)
-        return true
+        success = true
     end
-    return false
+
+    owner:LagCompensation(false)
+    return success
 end
 
 -- trigger placement of fake sodas and only play sound if the sodas are being dropped
 function SWEP:PrimaryAttack()
     if SERVER and self:CanPrimaryAttack() then
         local owner = self:GetOwner()
+        if not IsValid(owner) then return end
         if GetConVar("ttt2_fake_soda_secondary_sound"):GetBool() and not self.Reloaded then owner:EmitSound("fake_soda_drop.wav") end
         if createFakeSoda(owner, self.Reloaded) then self:TakePrimaryAmmo(1) end
     end
