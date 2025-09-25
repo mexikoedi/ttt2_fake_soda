@@ -66,41 +66,11 @@ SWEP.WorldModel = "models/props_junk/popcan01a.mdl"
 SWEP.OwnerSodas = nil
 SWEP.Reloaded = false
 SWEP.LastReload = 0
--- help texts, custom viewmodel/worldmodel and initialize clip
+-- help texts and initialize clip
 function SWEP:Initialize()
     if CLIENT then
         self:AddTTT2HUDHelp("ttt2_fake_soda_help1.0", "ttt2_fake_soda_help2")
         self:AddHUDHelpLine("ttt2_fake_soda_reload", Key("+reload", "undefined_key"))
-        self:AddCustomViewModel("vmodel", {
-            type = "Model",
-            model = "models/props_junk/popcan01a.mdl",
-            bone = "ValveBiped.Bip01_R_Finger2",
-            rel = "",
-            pos = Vector(0.518, 1.557, -0.519),
-            angle = Angle(-180, 45.583, 0),
-            size = Vector(0.755, 0.755, 0.755),
-            color = Color(255, 255, 255, 255),
-            surpresslightning = true,
-            material = "",
-            skin = 1,
-            bodygroup = {}
-        })
-
-        self:AddCustomWorldModel("wmodel", {
-            type = "Model",
-            model = "models/props_junk/popcan01a.mdl",
-            bone = "ValveBiped.Bip01_R_Hand",
-            rel = "",
-            pos = Vector(2.596, 1.557, -0.519),
-            angle = Angle(-174.157, 113.376, 26.882),
-            size = Vector(0.885, 0.885, 0.885),
-            color = Color(255, 255, 255, 255),
-            surpresslightning = true,
-            material = "",
-            skin = 1,
-            bodygroup = {}
-        })
-
         self.BaseClass.Initialize(self)
     end
 
@@ -210,8 +180,40 @@ if SERVER then
     end
 end
 
--- f1 equipment settings
+-- custom viewmodel/worldmodel and f1 equipment settings
 if CLIENT then
+    function SWEP:InitializeCustomModels()
+        self:AddCustomViewModel("vmodel", {
+            type = "Model",
+            model = "models/props_junk/popcan01a.mdl",
+            bone = "ValveBiped.Bip01_R_Finger2",
+            rel = "",
+            pos = Vector(0.518, 1.557, -0.519),
+            angle = Angle(-180, 45.583, 0),
+            size = Vector(0.755, 0.755, 0.755),
+            color = Color(255, 255, 255, 255),
+            surpresslightning = true,
+            material = "",
+            skin = 1,
+            bodygroup = {}
+        })
+
+        self:AddCustomWorldModel("wmodel", {
+            type = "Model",
+            model = "models/props_junk/popcan01a.mdl",
+            bone = "ValveBiped.Bip01_R_Hand",
+            rel = "",
+            pos = Vector(2.596, 1.557, -0.519),
+            angle = Angle(-174.157, 113.376, 26.882),
+            size = Vector(0.885, 0.885, 0.885),
+            color = Color(255, 255, 255, 255),
+            surpresslightning = true,
+            material = "",
+            skin = 1,
+            bodygroup = {}
+        })
+    end
+
     function SWEP:AddToSettingsMenu(parent)
         local form = vgui.CreateTTT2Form(parent, "header_equipment_additional")
         form:MakeSlider({
