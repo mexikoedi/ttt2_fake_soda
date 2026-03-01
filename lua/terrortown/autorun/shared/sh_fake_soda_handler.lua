@@ -37,7 +37,7 @@ if SERVER then
 	end
 
 	-- handle drinking of fake sodas if drinking is possible, play a sound and send message
-	-- owner and his team are cannot drink the fake sodas
+	-- owner and his team cannot drink the fake sodas
 	hook.Add("PlayerSpawn", "ttt2_fake_soda_reset_hook", function(ply) FAKESODA:ResetPlayerState(ply) end)
 	function FAKESODA:PickupFakeSoda(ply, ent)
 		if not IsValid(ent) then return end
