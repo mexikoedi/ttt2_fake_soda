@@ -43,7 +43,7 @@ if SERVER then
         return true
     end
 
-    -- handle pickup of sodas for owner and his team
+    -- handle pickup of sodas for owner
     local soundWeaponPickup = Sound("items/ammo_pickup.wav")
     local soundDeny = Sound("HL2Player.UseDeny")
     function ENT:Use(activator)

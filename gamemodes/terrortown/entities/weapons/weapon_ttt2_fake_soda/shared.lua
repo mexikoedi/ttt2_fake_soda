@@ -44,7 +44,8 @@ SWEP.InLoadoutFor = nil
 SWEP.CanBuy = {ROLE_TRAITOR}
 SWEP.LimitedStock = true
 SWEP.NoSights = false
-SWEP.AllowDrop = false
+SWEP.AllowDrop = true
+SWEP.AllowPickup = true
 SWEP.Spawnable = false
 SWEP.AdminOnly = false
 SWEP.AdminSpawnable = false
@@ -164,19 +165,13 @@ end
 
 function SWEP:OnRemove()
     local owner = self:GetOwner()
-    if SERVER and IsValid(owner) then
-        owner:StopSound("fake_soda_refreshing.wav")
-        self:Remove()
-    end
+    if SERVER and IsValid(owner) then owner:StopSound("fake_soda_refreshing.wav") end
 end
 
 if SERVER then
     function SWEP:OnDrop()
         local owner = self:GetOwner()
-        if IsValid(owner) then
-            owner:StopSound("fake_soda_refreshing.wav")
-            self:Remove()
-        end
+        if IsValid(owner) then owner:StopSound("fake_soda_refreshing.wav") end
     end
 end
 
